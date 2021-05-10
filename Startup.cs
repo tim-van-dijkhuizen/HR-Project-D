@@ -1,6 +1,5 @@
-using FitbyteServer.Models;
+using FitbyteServer.Base;
 using FitbyteServer.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,11 +25,10 @@ namespace FitbyteServer {
                 return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
             });
 
-            services.AddSingleton<ProfileService>();
-
             services.AddMvc().AddNewtonsoftJson();
-
             services.AddControllers();
+
+            services.AddSingleton<ProfileService>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,11 +38,7 @@ namespace FitbyteServer {
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();

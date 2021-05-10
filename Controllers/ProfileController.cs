@@ -1,4 +1,4 @@
-﻿using FitbyteServer.Models;
+﻿using FitbyteServer.Base;
 using FitbyteServer.Services;
 using Microsoft.AspNetCore.Mvc;
 

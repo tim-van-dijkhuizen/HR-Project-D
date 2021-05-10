@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitbyteServer", "FitbyteServer\FitbyteServer.csproj", "{310765C4-FC2F-4AC8-B424-8B7A6F6220E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitbyteServer", "FitbyteServer.csproj", "{310765C4-FC2F-4AC8-B424-8B7A6F6220E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

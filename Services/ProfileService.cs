@@ -1,5 +1,5 @@
 ﻿using FitbyteServer.Helpers;
-using FitbyteServer.Models;
+using FitbyteServer.Base;
 using MongoDB.Driver;
 using System;
 

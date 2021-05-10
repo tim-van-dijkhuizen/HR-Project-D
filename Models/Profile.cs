@@ -1,12 +1,11 @@
-﻿using FitbyteServer.Base;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 
-namespace FitbyteServer.Models {
+namespace FitbyteServer.Base {
 
     public class Profile {
 
