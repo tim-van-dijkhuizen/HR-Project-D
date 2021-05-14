@@ -1,13 +1,13 @@
 ﻿using FitbyteServer.Base;
+using FitbyteServer.Models;
 using FitbyteServer.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace FitbyteServer.Controllers {
 
     using Extensions;
-    using FitbyteServer.Models;
-    using System.Threading.Tasks;
 
     [ApiController]
     [Route("[controller]")]
