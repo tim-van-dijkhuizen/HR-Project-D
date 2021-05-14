@@ -1,4 +1,4 @@
-﻿namespace FitbyteServer.Base {
+﻿namespace FitbyteServer.Database {
 
     public class DatabaseSettings : IDatabaseSettings {
         

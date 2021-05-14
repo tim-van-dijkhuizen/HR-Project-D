@@ -1,7 +1,8 @@
 ﻿using FitbyteServer.Helpers;
-using FitbyteServer.Base;
+using FitbyteServer.Database;
 using MongoDB.Driver;
 using System;
+using FitbyteServer.Models;
 
 namespace FitbyteServer.Services {
 

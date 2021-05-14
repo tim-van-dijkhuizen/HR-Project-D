@@ -1,5 +1,5 @@
 ﻿using System;
-using FitbyteServer.Base;
+using FitbyteServer.Database;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;

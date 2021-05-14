@@ -1,11 +1,13 @@
-﻿using MongoDB.Bson;
+﻿using FitbyteServer.Base;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace FitbyteServer.Base {
+namespace FitbyteServer.Models {
 
     public class Profile {
 
@@ -13,16 +15,21 @@ namespace FitbyteServer.Base {
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
+        [Required]
         public string Username { get; set; }
 
+        [Required]
         [JsonConverter(typeof(StringEnumConverter))]
         public Genders Gender { get; set; }
 
+        [Required]
         public DateTime DateOfBirth { get; set; }
 
+        [Required]
         [JsonConverter(typeof(StringEnumConverter))]
         public Goals Goal { get; set; }
 
+        [Required]
         public List<int> Availability { get; set; }
 
     }

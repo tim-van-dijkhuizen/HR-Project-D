@@ -1,5 +1,6 @@
-using FitbyteServer.Base;
+using FitbyteServer.Database;
 using FitbyteServer.Services;
+using FitbyteServer.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -39,6 +40,7 @@ namespace FitbyteServer {
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseMiddleware<HttpExceptionMiddleware>();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
