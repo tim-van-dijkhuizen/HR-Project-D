@@ -15,18 +15,19 @@ namespace FitbyteServer.Models
 
         public string Title { get; set; }
 
-        public bool EnduranceTraining { get; set; }
+        public bool Endurance { get; set; }
 
 
         public int Time { get; set; }
 
    
-        public float Meter { get; set; }
+        public float Distance { get; set; }
 
-        public float AverageSpeed { get; set; }
+        public float Speed { get; set; }
 
-        public DateTime TimeAccomplished { get; set; }
+        public DateTime DateAccomplished { get; set; }
 
     
     }
+
 }

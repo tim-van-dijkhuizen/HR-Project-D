@@ -18,8 +18,11 @@ namespace FitbyteServer.Controllers {
         public string Create([FromBody] Profile profile) {
             bool success = _profileService.CreateProfile(profile);
             return "Success: " + success;
+            
         }
+  
 
-    }
+
+}
 
 }
