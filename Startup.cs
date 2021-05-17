@@ -1,4 +1,5 @@
 using FitbyteServer.Database;
+using FitbyteServer.Helpers;
 using FitbyteServer.Services;
 using FitbyteServer.Web;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 namespace FitbyteServer {
 
@@ -20,15 +22,24 @@ namespace FitbyteServer {
         
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            services.Configure<DatabaseSettings>(Configuration.GetSection("DatabaseSettings"));
-
-            services.AddSingleton<IDatabaseSettings>(sp => {
-                return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
-            });
-
             services.AddMvc().AddNewtonsoftJson();
             services.AddControllers();
 
+            // Register configurations
+            services.Configure<DatabaseSettings>(Configuration.GetSection("DatabaseSettings"));
+
+            // Register database service
+            services.AddSingleton<IMongoDatabase>(sp => {
+                IDatabaseSettings settings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+                MongoClient client = DatabaseHelper.BuildClient(settings);
+                IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
+
+                return database;
+            });
+
+            services.AddHostedService<ConfigureMongoIndexes>();
+
+            // Register other services
             services.AddSingleton<ProfileService>(); 
         }
 

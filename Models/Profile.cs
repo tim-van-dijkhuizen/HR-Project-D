@@ -32,6 +32,8 @@ namespace FitbyteServer.Models {
         [Required]
         public List<int> Availability { get; set; }
 
+        public Schema Schema { get; set; }
+
     }
 
 }
