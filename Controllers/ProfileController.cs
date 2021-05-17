@@ -1,4 +1,5 @@
-﻿using FitbyteServer.Extensions;
+﻿using FitbyteServer.Base;
+using FitbyteServer.Extensions;
 using FitbyteServer.Models;
 using FitbyteServer.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -31,35 +32,54 @@ namespace FitbyteServer.Controllers {
         }
 
         [HttpPost("save-profile")]
-        public IActionResult SaveProfile([FromBody] Profile profile) {
+        public IActionResult SaveProfile([FromBody] Profile newProfile) {
             string username = this.GetUsername();
 
             // Get profile
-            Profile existing = _profileService.GetProfile(username);
+            Profile profile = _profileService.GetProfile(username);
 
-            if(existing != null) {
-                existing.Gender = profile.Gender;
-                existing.DateOfBirth = profile.DateOfBirth;
-                existing.Goal = profile.Goal;
-                existing.Availability = profile.Availability;
-            } else {
-                existing = profile;
+            if(profile == null) {
+                profile = new Profile() { Username = username };
             }
 
+            // Clear schema if goal has changed
+            if(profile.Goal != newProfile.Goal) {
+                profile.Schema = null;
+            }
+
+            // Update profile
+            profile.Gender = newProfile.Gender;
+            profile.DateOfBirth = newProfile.DateOfBirth;
+            profile.Goal = newProfile.Goal;
+            profile.Availability = newProfile.Availability;
+
             // Save profile
-            _profileService.SaveProfile(existing);
+            _profileService.SaveProfile(profile);
 
             return Ok();
         }
 
         [HttpPost("save-coopertest")]
         public async Task<IActionResult> SaveCoopertest() {
-            string username = this.GetUsername();
             int distance = await this.GetRequiredParam<int>("distance");
 
-            return Ok(new {
-                success = true
-            });
+            // Get profile
+            string username = this.GetUsername();
+            Profile profile = _profileService.GetProfile(username);
+
+            if(profile == null) {
+                return NotFound("Profile does not exist");
+            }
+
+            // Get condition score and generate schema
+            ConditionScores score = _profileService.GetConditionScore(profile.Gender, profile.DateOfBirth, distance);
+            Schema schema = _profileService.GenerateSchema(profile.Goal, score);
+
+            // Update and save profile
+            profile.Schema = schema;
+            _profileService.SaveProfile(profile);
+
+            return Ok(new { score });
         }
   
     }
