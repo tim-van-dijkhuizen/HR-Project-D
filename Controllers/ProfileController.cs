@@ -1,5 +1,6 @@
 ﻿using FitbyteServer.Base;
 using FitbyteServer.Extensions;
+using FitbyteServer.Helpers;
 using FitbyteServer.Models;
 using FitbyteServer.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +40,7 @@ namespace FitbyteServer.Controllers {
             Profile profile = _profileService.GetProfile(username);
 
             if(profile == null) {
-                profile = new Profile() { Username = username };
+                profile = new Profile() { Username = ProfileHelper.ParseUsername(username) };
             }
 
             // Clear schema if goal has changed

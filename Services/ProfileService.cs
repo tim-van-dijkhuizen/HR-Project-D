@@ -1,10 +1,9 @@
 ﻿using MongoDB.Driver;
-using FitbyteServer.Extensions;
 using FitbyteServer.Models;
-using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using FitbyteServer.Base;
+using FitbyteServer.Helpers;
 
 namespace FitbyteServer.Services {
 
@@ -17,22 +16,19 @@ namespace FitbyteServer.Services {
         }
 
         public Profile GetProfile(string username) {
-            return _profiles.Find<Profile>(profile => profile.Username == username.ToLower())
-                .FirstOrDefault();
+            username = ProfileHelper.ParseUsername(username);
+            return _profiles.Find(profile => profile.Username == username).FirstOrDefault();
         }
 
         public void SaveProfile(Profile profile) {
-            string username = profile.Username.ToLower();
-            Profile existing = GetProfile(username);
+            Profile existing = GetProfile(profile.Username);
 
-            // Create if its a new profile
-            if(existing == null) {
+            // Create or update profile
+            if(existing != null) {
+                _profiles.ReplaceOne(p => p.Username == existing.Username, profile);
+            } else {
                 _profiles.InsertOne(profile);
-                return;
             }
-
-            // Update existing profile
-            _profiles.ReplaceOne(p => p.Username == username, profile);
         }
 
         public ConditionScores GetConditionScore(Genders gender, DateTime dateOfBirth, float distance) {
