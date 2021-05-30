@@ -63,9 +63,9 @@ namespace FitbyteServer.Controllers {
         [HttpPost("save-coopertest")]
         public async Task<IActionResult> SaveCoopertest() {
             int distance = await this.GetRequiredParam<int>("distance");
+            string username = this.GetUsername();
 
             // Get profile
-            string username = this.GetUsername();
             Profile profile = _profileService.GetProfile(username);
 
             if(profile == null) {
