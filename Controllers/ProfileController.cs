@@ -44,7 +44,7 @@ namespace FitbyteServer.Controllers {
             }
 
             // Clear schema if goal has changed
-            if(profile.DistanceGoal != newProfile.DistanceGoal) {
+            if(profile.DistanceGoal != newProfile.DistanceGoal || profile.TimeGoal != newProfile.TimeGoal) {
                 profile.Schema = null;
             }
 
