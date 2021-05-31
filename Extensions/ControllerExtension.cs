@@ -53,10 +53,14 @@ namespace FitbyteServer.Extensions {
             HttpRequest request = controller.Request;
 
             // Read body and convert to JSON
-            using (StreamReader reader = new StreamReader(request.Body, Encoding.UTF8)) {  
+            HttpRequestRewindExtensions.EnableBuffering(request);
+
+            using (StreamReader reader = new StreamReader(request.Body, Encoding.UTF8, leaveOpen: true)) {
                 string body = await reader.ReadToEndAsync();
                 JObject json = JObject.Parse(body);
                 
+                request.Body.Position = 0;
+
                 // Read property
                 JToken property;
 

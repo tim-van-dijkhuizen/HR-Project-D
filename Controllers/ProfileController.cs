@@ -82,6 +82,44 @@ namespace FitbyteServer.Controllers {
 
             return Ok(new { score });
         }
+
+        [HttpGet("get-fitbit-token")]
+        public IActionResult GetFitbitToken() {
+            string username = this.GetUsername();
+
+            // Get profile
+            Profile profile = _profileService.GetProfile(username);
+
+            if(profile == null) {
+                return NotFound("Profile does not exist");
+            }
+
+            return Ok(new { Token = profile.FitbitToken });
+        }
+
+        [HttpPost("save-fitbit-token")]
+        public async Task<IActionResult> SaveFitbitToken() {
+            string username = this.GetUsername();
+            string accessToken = await this.GetRequiredParam<string>("AccessToken");
+            string refreshToken = await this.GetRequiredParam<string>("RefreshToken");
+
+            // Get profile
+            Profile profile = _profileService.GetProfile(username);
+
+            if(profile == null) {
+                return NotFound("Profile does not exist");
+            }
+
+            // Set token and save
+            profile.FitbitToken = new FitbitToken() {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
+            };
+
+            _profileService.SaveProfile(profile);
+
+            return Ok(new { Token = profile.FitbitToken });
+        }
   
     }
 
