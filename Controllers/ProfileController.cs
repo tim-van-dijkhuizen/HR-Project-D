@@ -44,14 +44,15 @@ namespace FitbyteServer.Controllers {
             }
 
             // Clear schema if goal has changed
-            if(profile.Goal != newProfile.Goal) {
+            if(profile.DistanceGoal != newProfile.DistanceGoal) {
                 profile.Schema = null;
             }
 
             // Update profile
             profile.Gender = newProfile.Gender;
             profile.DateOfBirth = newProfile.DateOfBirth;
-            profile.Goal = newProfile.Goal;
+            profile.DistanceGoal = newProfile.DistanceGoal;
+            profile.TimeGoal = newProfile.TimeGoal;
             profile.Availability = newProfile.Availability;
 
             // Save profile
@@ -74,7 +75,7 @@ namespace FitbyteServer.Controllers {
 
             // Get condition score and generate schema
             ConditionScores score = _profileService.GetConditionScore(profile.Gender, profile.DateOfBirth, distance);
-            Schema schema = _profileService.GenerateSchema(profile.Goal, score);
+            Schema schema = _profileService.GenerateSchema(profile.DistanceGoal, profile.TimeGoal, profile.Availability.Count, score);
 
             // Update and save profile
             profile.Schema = schema;

@@ -35,7 +35,7 @@ namespace FitbyteServer.Services {
             return ConditionScores.Medium;
         }
 
-        public Schema GenerateSchema(Goals goal, ConditionScores score) {
+        public Schema GenerateSchema(Goals distanceGoal, TimeSpan timeGoal, int daysAvailable, ConditionScores score) {
             Schema schema = new Schema();
 
             schema.ConditionScore = score;
