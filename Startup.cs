@@ -39,8 +39,8 @@ namespace FitbyteServer {
 
             services.AddHostedService<ConfigureMongoIndexes>();
 
-            // Register other services
-            services.AddSingleton<ProfileService>(); 
+            services.AddSingleton<ProfileService>();
+            services.AddSingleton<WorkoutService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -24,6 +24,7 @@ namespace FitbyteServer.Extensions {
             return username;
         }
 
+
         public async static Task<T> GetParam<T>(this ControllerBase controller, string key) {
             HttpRequest request = controller.Request;
 
