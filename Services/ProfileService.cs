@@ -48,15 +48,12 @@ namespace FitbyteServer.Services {
 
             schema.Workouts = new List<Workout>();
 
-            schema.Workouts.Add(new EnduranceWorkout() {
-                Title = "Hardlopen 5km",
-                Distance = 3.2f
-            });
-
-            schema.Workouts.Add(new EnduranceWorkout() {
-                Title = "Hardlopen 10km",
-                Distance = 3.2f
-            });
+            for(int i = 1; i <= 20; i++) {
+                schema.Workouts.Add(new EnduranceWorkout() {
+                    Title = $"Hardlopen {i}km",
+                    Distance = i
+                });
+            }
 
             schema.Workouts.Add(new PowerWorkout() {
                 Title = "Opdrukken 100x"

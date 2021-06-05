@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FitbyteServer.Base {
 
-    [BsonDiscriminator(Required = true, RootClass = true)]
+    [BsonDiscriminator(RootClass = true)]
     [BsonKnownTypes(typeof(EnduranceWorkout), typeof(PowerWorkout))]
     public abstract class Workout {
 

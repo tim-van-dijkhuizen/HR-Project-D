@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FitbyteServer.Errors;
 using FitbyteServer.Extensions;
 using FitbyteServer.Models;
 using FitbyteServer.Services;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace FitbyteServer.Controllers {
 
@@ -14,9 +11,11 @@ namespace FitbyteServer.Controllers {
     [Route("[controller]")]
     public class WorkoutController : ControllerBase {
 
+        private readonly ProfileService _profileService;
         private readonly WorkoutService _workoutService;
 
-        public WorkoutController(WorkoutService workoutService) {
+        public WorkoutController(ProfileService profileService, WorkoutService workoutService) {
+            _profileService = profileService;
             _workoutService = workoutService;
         }
 
@@ -50,14 +49,26 @@ namespace FitbyteServer.Controllers {
 
         [HttpGet("get-progress")]
         public IActionResult GetProgress() {
+            string username = this.GetUsername();
+            
+            // Make sure the profile exists
+            Profile profile = _profileService.GetProfile(username);
+
+            if(profile == null) {
+                return BadRequest("Profile does not exist");
+            }
+
+            // Make sure the schema exists
+            Scheme scheme = profile.Scheme;
+
+            if(scheme == null) {
+                return BadRequest("Scheme does not exist");
+            }
+
             return Ok(new {
-                totalPercentage = 100.0f,
-                totalDistance = 5000,
-                totalWorkouts = 620,
-                averageSpeed = 8.0f,
-                maxSpeed = 10.0f,
-                averageDistance = 520,
-                maxDistance = 750
+                distanceGoal = profile.DistanceGoal.ToString(),
+                timeGoal = profile.TimeGoal,
+                progress = scheme.Progress
             });
         }
 
