@@ -27,10 +27,15 @@ namespace FitbyteServer.Models {
 
         [Required]
         [JsonConverter(typeof(StringEnumConverter))]
-        public Goals Goal { get; set; }
+        public Goals DistanceGoal { get; set; }
+
+        [Required]
+        public TimeSpan TimeGoal { get; set; }
 
         [Required]
         public List<int> Availability { get; set; }
+
+        public FitbitToken FitbitToken { get; set; }
 
         public Schema Schema { get; set; }
 
