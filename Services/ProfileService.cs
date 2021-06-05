@@ -20,12 +20,17 @@ namespace FitbyteServer.Services {
             return _profiles.Find(profile => profile.Username == username).FirstOrDefault();
         }
 
+        public bool DoesProfileExist(string username) {
+            username = ProfileHelper.ParseUsername(username);
+            return _profiles.Find(profile => profile.Username == username).Any();
+        }
+
         public void SaveProfile(Profile profile) {
-            Profile existing = GetProfile(profile.Username);
+            string username = ProfileHelper.ParseUsername(profile.Username);
 
             // Create or update profile
-            if(existing != null) {
-                _profiles.ReplaceOne(p => p.Username == existing.Username, profile);
+            if(DoesProfileExist(username)) {
+                _profiles.ReplaceOne(p => p.Username == username, profile);
             } else {
                 _profiles.InsertOne(profile);
             }
@@ -35,16 +40,27 @@ namespace FitbyteServer.Services {
             return ConditionScores.Medium;
         }
 
-        public Schema GenerateSchema(Goals distanceGoal, TimeSpan timeGoal, int daysAvailable, ConditionScores score) {
-            Schema schema = new Schema();
+        public Scheme GenerateScheme(Goals distanceGoal, int timeGoal, int daysAvailable, ConditionScores score) {
+            Scheme schema = new Scheme();
 
             schema.ConditionScore = score;
             schema.WorkoutsPerWeek = 3;
 
             schema.Workouts = new List<Workout>();
-            schema.Workouts.Add(new Workout() { Title = "Hardlopen 5km", Endurance = true, Distance = 3.2f });
-            schema.Workouts.Add(new Workout() { Title = "Hardlopen 10km", Endurance = true, Distance = 3.2f });
-            schema.Workouts.Add(new Workout() { Title = "Opdrukken 100x", Endurance = false });
+
+            schema.Workouts.Add(new EnduranceWorkout() {
+                Title = "Hardlopen 5km",
+                Distance = 3.2f
+            });
+
+            schema.Workouts.Add(new EnduranceWorkout() {
+                Title = "Hardlopen 10km",
+                Distance = 3.2f
+            });
+
+            schema.Workouts.Add(new PowerWorkout() {
+                Title = "Opdrukken 100x"
+            });
 
             schema.Progress = new Progress();
 

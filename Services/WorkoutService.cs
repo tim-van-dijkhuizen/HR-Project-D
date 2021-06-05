@@ -1,142 +1,137 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using FitbyteServer.Extensions;
 using FitbyteServer.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using FitbyteServer.Errors;
+using FitbyteServer.Base;
 
-namespace FitbyteServer.Services
-{
-    public class WorkoutService
-    {
+namespace FitbyteServer.Services {
 
-
+    public class WorkoutService {
+        
         private readonly IMongoCollection<Profile> _profiles;
+        private readonly ProfileService _profileService;
 
-        public WorkoutService(IMongoDatabase database)
-        {
+        public WorkoutService(IMongoDatabase database, ProfileService profileService) {
             _profiles = database.GetCollection<Profile>("profiles");
+            _profileService = profileService;
         }
+        
+        public WeekOverview GetWeekOverview(string username) {
+            Profile profile = _profileService.GetProfile(username);
 
-        public bool CreateWorkout(Workout workout)
-        {
-            try
-            {
-                //.InsertOne(workout);
-                return true;
+            // Make sure the profile exists
+            if(profile == null) {
+                throw new ProfileNotFoundException();
             }
-            catch (Exception)
-            {
-                return false;
+
+            // Make sure the schema exists
+            Scheme scheme = profile.Scheme;
+
+            if(scheme == null) {
+                throw new SchemeNotFoundException();
             }
-        }
-        public List<Workout> Weekoverview(string username)
-        {
-            BsonDocument match = new BsonDocument() {{
-            "Schema.Workouts.DateAccomplished", new BsonDocument() {
-            {"$gte", DateTime.Now.StartOfWeek()},
-            {"$lte", DateTime.Now.EndOfWeek()}
-    }
-}};
-            BsonDocument match2 = new BsonDocument() { {
-                     "Schema.Workouts.DateAccomplished", BsonNull.Value
+
+            // Query database
+            BsonDocument matchThisWeek = new BsonDocument() {{
+                "Schema.Workouts.DateCompleted", new BsonDocument() {
+                    {"$gte", DateTime.Now.StartOfWeek()},
+                    {"$lte", DateTime.Now.EndOfWeek()}
                 }
+            }};
+
+            BsonDocument matchPending = new BsonDocument() {{
+                "Schema.Workouts.DateCompleted", BsonNull.Value
+            }};
+
+            BsonDocument match = new BsonDocument() {{
+                "$or", new BsonArray { matchThisWeek, matchPending }
+            }};
+
+            BsonDocument projection = new BsonDocument() {
+                { "Id", "$Schema.Workouts.Id" },
+                { "Title", "$Schema.Workouts.Title" },
+                { "DateCompleted", "$Schema.Workouts.DateCompleted" }
+            };
+
+            List<Workout> workouts = _profiles.Aggregate()
+                .Match(new BsonDocument("Username", username))
+                .Unwind("Scheme.Workouts")
+                .Match(match)
+                .Limit(scheme.WorkoutsPerWeek)
+                .Project<Workout>(projection)
+                .ToList();
+            
+            // Prepare data
+            int completedCount = workouts.Where(w => w.DateCompleted != null).Count();
+            float progressPercentage = (completedCount / scheme.WorkoutsPerWeek) * 100;
+            Dictionary<int, string> days = new Dictionary<int, string>();
+
+            for(int i = 1; i <= 7; i++) {
+                string status = "unavailable";
+
+                // Check if available
+                if(profile.Availability.Contains(i)) {
+                    status = "available";
+                }
+
+                // Check if completed
+                Func<Workout, bool> filter = w => {
+                    DateTime completed = w.DateCompleted.Value;
+
+                    if(completed != null) {
+                        int dayOfWeek = (int) completed.DayOfWeek;
+                        return dayOfWeek == i;
+                    }
+
+                    return false;
                 };
 
-            List<BsonDocument> result = _profiles.Aggregate()
-                .Match(new BsonDocument("Username", username))
-                .Unwind("Schema.Workouts")
-                .Match(match).ToList();
+                if(workouts.Where(filter).Any()) {
+                    status = "completed";
+                }
 
-
-            List<BsonDocument> WeekWorkout = _profiles.Aggregate()
-                   .Match(new BsonDocument("Username", username))
-                   .Unwind("Schema.Workouts")
-                   .Match(match2)
-                   .Project(new BsonDocument() {
-                       { "Id", "$Schema.Workout.Id" },
-                        { "Title", "$Schema.Workout.Title" },
-                        { "Endurance", "$Schema.Workout.Endurance" },
-                        { "Time", "$Schema.Workout.Time" },
-                        { "Distance", "$Schema.Workout.Distance" },
-                       { "Speed", "$Schema.Workout.Speed"},
-                       {"DateCompleted", "$Schema.Workout.DateCompleted" }
-                    })
-                   .ToList();
-
-            List<Workout> weekworkoutsresult = new List<Workout>();
-
-
-            foreach (BsonDocument _item in WeekWorkout)
-            {
-                var item2 =
-                BsonSerializer.Deserialize<Workout>(_item);
-                weekworkoutsresult.Add(item2);
-
+                days.Add(i, status);
             }
 
-            return weekworkoutsresult;
-        }
-        public double GetWeekProcentage(string username)
-        {
-            BsonDocument match = new BsonDocument() {{
-            "Schema.Workouts.DateAccomplished", new BsonDocument() {
-            {"$gte", DateTime.Now.StartOfWeek()},
-            {"$lte", DateTime.Now.EndOfWeek()}
-    }
-}};
-            BsonDocument match2 = new BsonDocument() { {
-                     "Schema.Workouts.DateAccomplished", BsonNull.Value
-
-
-                } };
-
-
-            var Workoutscountdone = _profiles.Aggregate()
-                .Match(new BsonDocument("Username", username))
-                .Unwind("Schema.Workouts")
-                .Match(match).FirstOrDefault();
-
-            //.ElementCount;
-
-            double progresspercentage = (Workoutscountdone != null ? Workoutscountdone.ElementCount : 0) / 4 * 100;
-
-            return progresspercentage;
+            return new WeekOverview() {
+                ProgressPercentage = progressPercentage,
+                Days = days,
+                Workouts = workouts
+            };
         }
 
-        public List<int> GetWeekDays(string username)
-        {
+        public void CompleteWorkout(string username, string workoutId, int time) {
+            BsonDocument filter = new BsonDocument() {
+                { "Username", username },
+                {  "Scheme.Workouts._id", workoutId }
+            };
 
-            List<BsonDocument> resultDays = _profiles.Aggregate()
-                .Match(new BsonDocument("Username", username))
-                .Project(new BsonDocument() { { "Availability", $"Schema.Availability" } }).ToList();
+            // Make sure the workout exists
+            if(!_profiles.Find(filter).Any()) {
+                throw new WorkoutNotFoundException();
+            }
 
+            // Create update
+            BsonDateTime dateTime = new BsonDateTime(DateTime.Now);
+            BsonDocument result = new BsonDocument() { { "Time", time } };
 
+            BsonDocument update = new BsonDocument() {
+                { "$set", new BsonDocument() {
+                    { "Scheme.Workouts.$.DateCompleted", dateTime },
+                    { "Scheme.Workouts.$.Result", result }
+                } }
+            };
 
-            var match = _profiles.Find(new BsonDocument() { { "Username", username } })
-                .Project(new BsonDocument() {
-                       { "Availability", true } }).FirstOrDefault();
-       
-        
-
-
-            BsonArray avaliabilityresult = match.GetValue("Availability").AsBsonArray;
-            List<int> test = new List<int>();
-          
-            foreach (BsonValue _item in avaliabilityresult)
-            
-             {
-                var item2 = BsonSerializer.Deserialize<int>(_item);
-                test.Add(item2);
-
-             }
-
-            return test;
+            // Update workout
+            _profiles.UpdateOne(filter, update);
         }
 
-        public double GetProcentage(string username)
-        {
+        public double GetProcentage(string username) {
             BsonDocument match = new BsonDocument() {{
             "Schema.Workouts.DateAccomplished", new BsonDocument() {
             {"$gte", DateTime.Now.StartOfWeek()},
@@ -164,36 +159,31 @@ namespace FitbyteServer.Services
             return progresspercentage;
         }
 
-        public int TotalDistance(string username)
-        {
+        public int TotalDistance(string username) {
             var Distances = _profiles.Aggregate()
                 .Match(new BsonDocument("Username", username))
                 .Unwind("Schema.Workouts.distance").ToList();
 
             int totaldisance = 0;
-            foreach (BsonDocument _item in Distances)
-            {
+            foreach(BsonDocument _item in Distances) {
                 var item2 = BsonSerializer.Deserialize<int>(_item);
                 totaldisance += item2;
 
             }
             return totaldisance;
         }
-        public int TotalWorkouts(string username)
-        {
+        public int TotalWorkouts(string username) {
             var Workoutscountall = _profiles.Aggregate()
                    .Match(new BsonDocument("Username", username))
                    .Unwind("Schema.Workouts").FirstOrDefault().ElementCount;
             return Workoutscountall;
         }
-        public double AverageSpeed(string username)
-        {
+        public double AverageSpeed(string username) {
             var totalspeed = _profiles.Aggregate()
                 .Match(new BsonDocument("Username", username))
                 .Unwind("Schema.Workouts.Speed").ToList();
             double totalspeedall = 0.0;
-            foreach (BsonDocument _item in totalspeed)
-            {
+            foreach(BsonDocument _item in totalspeed) {
                 var item2 = BsonSerializer.Deserialize<double>(_item);
                 totalspeedall += item2;
             }
@@ -211,13 +201,7 @@ namespace FitbyteServer.Services
                 .Match(Workoutdone).ToList();
             return 0.0;
         }
-    
 
-        public void CompleteWorkout()
-        {
-            DateTime today = DateTime.Today;
-
-        }
     }
 }
 

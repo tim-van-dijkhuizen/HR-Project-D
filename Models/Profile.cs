@@ -30,14 +30,14 @@ namespace FitbyteServer.Models {
         public Goals DistanceGoal { get; set; }
 
         [Required]
-        public TimeSpan TimeGoal { get; set; }
+        public int TimeGoal { get; set; }
 
         [Required]
         public List<int> Availability { get; set; }
 
         public FitbitToken FitbitToken { get; set; }
 
-        public Schema Schema { get; set; }
+        public Scheme Scheme { get; set; }
 
     }
 

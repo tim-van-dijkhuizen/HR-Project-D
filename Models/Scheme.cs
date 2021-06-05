@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FitbyteServer.Models {
 
-    public class Schema {
+    public class Scheme {
 
         public ConditionScores ConditionScore;
         public int WorkoutsPerWeek { get; set; }
