@@ -119,7 +119,7 @@ namespace FitbyteServer.Controllers {
 
             _profileService.SaveProfile(profile);
 
-            return Ok(new { Token = profile.FitbitToken });
+            return Ok();
         }
   
     }

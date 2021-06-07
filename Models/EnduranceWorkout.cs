@@ -7,7 +7,7 @@ namespace FitbyteServer.Models {
     public class EnduranceWorkout : Workout {
 
         [Required]
-        public float Distance { get; set; }
+        public int Distance { get; set; }
 
         [Required]
         public int Time { get; set; }
@@ -17,11 +17,16 @@ namespace FitbyteServer.Models {
         public override void SetResult(JObject json) {
             Result = new EnduranceResult();
 
+            // Set distance
+            JToken distanceProperty = json.GetValue("distance");
+            int distance = Result.Distance = distanceProperty.Value<int>();
+
             // Set time
-            JToken property = json.GetValue("time");
-            int time = property.Value<int>();
+            JToken timeProperty = json.GetValue("time");
+            int time = Result.Time = timeProperty.Value<int>();
             
-            Result.Time = time;
+            // Set speed
+            Result.Speed = (float) distance / time * 3.6f;
         }
     
     }

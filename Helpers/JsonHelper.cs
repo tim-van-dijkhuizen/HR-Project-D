@@ -2,6 +2,7 @@
 using FitbyteServer.Extensions;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Linq;
 
 namespace FitbyteServer.Helpers {
 

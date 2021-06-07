@@ -43,8 +43,14 @@ namespace FitbyteServer.Controllers {
             // Complete workout
             try {
                 _workoutService.CompleteWorkout(username, workoutId, result);
+            } catch(ProfileNotFoundException) {
+                return BadRequest("Profile does not exist");
+            } catch(SchemeNotFoundException) {
+                return BadRequest("Scheme does not exist");
             } catch(WorkoutNotFoundException) {
                 return BadRequest("Workout does not exist");
+            } catch(InvalidResultException) {
+                return BadRequest("Result is invalid");
             }
 
             return Ok();

@@ -10,8 +10,8 @@
         public float AverageSpeed { get; set; }
         public float MaxSpeed { get; set; }
 
-        public float AverageDistance { get; set; }
-        public float MaxDistance { get; set; }
+        public int AverageDistance { get; set; }
+        public int MaxDistance { get; set; }
 
     }
 

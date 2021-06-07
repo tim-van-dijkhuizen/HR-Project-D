@@ -111,14 +111,46 @@ namespace FitbyteServer.Services {
 
             try {
                 workout.SetResult(json);
-            } catch(Exception) {
-                throw new InvalidResultException();
+            } catch(Exception e) {
+                throw new InvalidResultException(e.Message);
             }
            
             workout.DateCompleted = DateTime.Now;
 
+            // Re-generate progress
+            scheme.Progress = GenerateProgress(scheme);
+
             // Save profile
             _profileService.SaveProfile(profile);
+        }
+
+        private Progress GenerateProgress(Scheme scheme) {
+            List<Workout> workouts = scheme.Workouts;
+
+            List<Workout> completed = workouts
+                .Where(w => w.DateCompleted != null)
+                .ToList();
+
+            List<EnduranceWorkout> enduranceWorkouts = completed
+                .OfType<EnduranceWorkout>()
+                .ToList();
+
+            int completedCount = completed.Count();
+            int totalCount = workouts.Count();
+
+            // Build progress
+            return new Progress {
+                TotalPercentage = (float) completedCount / totalCount * 100f,
+                
+                TotalDistance = enduranceWorkouts.Sum(w => w.Result.Distance),
+                TotalWorkouts = completedCount,
+
+                AverageSpeed = enduranceWorkouts.Any() ? enduranceWorkouts.Average(w => w.Result.Speed) : 0f,
+                MaxSpeed = enduranceWorkouts.Any() ? enduranceWorkouts.Max(w => w.Result.Speed) : 0f,
+
+                AverageDistance = enduranceWorkouts.Any() ? (int) enduranceWorkouts.Average(w => w.Result.Distance) : 0,
+                MaxDistance = enduranceWorkouts.Any() ? enduranceWorkouts.Max(w => w.Result.Distance) : 0
+            };
         }
 
     }
