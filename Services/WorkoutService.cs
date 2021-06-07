@@ -3,21 +3,18 @@ using System.Linq;
 using System.Collections.Generic;
 using FitbyteServer.Extensions;
 using FitbyteServer.Models;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using FitbyteServer.Errors;
 using FitbyteServer.Base;
+using Newtonsoft.Json.Linq;
 
 namespace FitbyteServer.Services {
 
     public class WorkoutService {
         
-        private readonly IMongoCollection<Profile> _profiles;
         private readonly ProfileService _profileService;
 
-        public WorkoutService(IMongoDatabase database, ProfileService profileService) {
-            _profiles = database.GetCollection<Profile>("profiles");
+        public WorkoutService(ProfileService profileService) {
             _profileService = profileService;
         }
         
@@ -65,7 +62,7 @@ namespace FitbyteServer.Services {
                 }
 
                 // Check if completed
-                Func<Workout, bool> filter = w => {
+                bool filter(Workout w) {
                     DateTime? completed = w.DateCompleted;
 
                     if(completed != null) {
@@ -74,7 +71,7 @@ namespace FitbyteServer.Services {
                     }
 
                     return false;
-                };
+                }
 
                 if(workouts.Where(filter).Any()) {
                     status = "completed";
@@ -90,30 +87,38 @@ namespace FitbyteServer.Services {
             };
         }
 
-        public void CompleteWorkout(string username, string workoutId, int time) {
-            BsonDocument filter = new BsonDocument() {
-                { "Username", username },
-                {  "Scheme.Workouts._id", workoutId }
-            };
+        public void CompleteWorkout(string username, string workoutId, JObject json) {
+            Profile profile = _profileService.GetProfile(username);
 
-            // Make sure the workout exists
-            if(!_profiles.Find(filter).Any()) {
+            // Make sure the profile exists
+            if(profile == null) {
+                throw new ProfileNotFoundException();
+            }
+
+            // Make sure the schema exists
+            Scheme scheme = profile.Scheme;
+
+            if(scheme == null) {
+                throw new SchemeNotFoundException();
+            }
+
+            // Find workout
+            Workout workout = scheme.Workouts.Where(w => w.Id == workoutId).FirstOrDefault();
+
+            if(workout == null) {
                 throw new WorkoutNotFoundException();
             }
 
-            // Create update
-            BsonDateTime dateTime = new BsonDateTime(DateTime.Now);
-            BsonDocument result = new BsonDocument() { { "Time", time } };
+            try {
+                workout.SetResult(json);
+            } catch(Exception) {
+                throw new InvalidResultException();
+            }
+           
+            workout.DateCompleted = DateTime.Now;
 
-            BsonDocument update = new BsonDocument() {
-                { "$set", new BsonDocument() {
-                    { "Scheme.Workouts.$.DateCompleted", dateTime },
-                    { "Scheme.Workouts.$.Result", result }
-                } }
-            };
-
-            // Update workout
-            _profiles.UpdateOne(filter, update);
+            // Save profile
+            _profileService.SaveProfile(profile);
         }
 
     }

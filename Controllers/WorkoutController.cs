@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
 using FitbyteServer.Errors;
 using FitbyteServer.Extensions;
+using FitbyteServer.Helpers;
 using FitbyteServer.Models;
 using FitbyteServer.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace FitbyteServer.Controllers {
 
@@ -36,10 +38,11 @@ namespace FitbyteServer.Controllers {
         public async Task<IActionResult> CompleteWorkout() {
             string username = this.GetUsername();
             string workoutId = await this.GetRequiredParam<string>("workoutId");
-            int time = await this.GetRequiredParam<int>("time");
+            JObject result = await this.GetParam<JObject>("result");
 
+            // Complete workout
             try {
-                _workoutService.CompleteWorkout(username, workoutId, time);
+                _workoutService.CompleteWorkout(username, workoutId, result);
             } catch(WorkoutNotFoundException) {
                 return BadRequest("Workout does not exist");
             }

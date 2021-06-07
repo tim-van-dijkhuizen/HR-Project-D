@@ -41,12 +41,11 @@ namespace FitbyteServer.Services {
         }
 
         public Scheme GenerateScheme(Goals distanceGoal, int timeGoal, int daysAvailable, ConditionScores score) {
-            Scheme schema = new Scheme();
-
-            schema.ConditionScore = score;
-            schema.WorkoutsPerWeek = 3;
-
-            schema.Workouts = new List<Workout>();
+            Scheme schema = new Scheme {
+                ConditionScore = score,
+                WorkoutsPerWeek = 3,
+                Workouts = new List<Workout>()
+            };
 
             for(int i = 1; i <= 20; i++) {
                 schema.Workouts.Add(new EnduranceWorkout() {
