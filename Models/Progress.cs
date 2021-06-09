@@ -2,16 +2,16 @@
 
     public class Progress {
 
-        public float totalPercentage { get; set; }
+        public float TotalPercentage { get; set; }
 
-        public int totalDistance { get; set; }
-        public int totalWorkouts { get; set; }
+        public int TotalDistance { get; set; }
+        public int TotalWorkouts { get; set; }
 
-        public float averageSpeed { get; set; }
-        public float maxSpeed { get; set; }
+        public float AverageSpeed { get; set; }
+        public float MaxSpeed { get; set; }
 
-        public float averageDistance { get; set; }
-        public float maxDistance { get; set; }
+        public int AverageDistance { get; set; }
+        public int MaxDistance { get; set; }
 
     }
 

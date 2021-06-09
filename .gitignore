@@ -334,4 +334,5 @@ ASALocalRun/
 .localhistory/
 appsettings.json
 appsettings.Development.json
-Properties/
+Properties/*
+!Properties/launchSettings.json

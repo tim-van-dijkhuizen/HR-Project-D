@@ -1,5 +1,6 @@
 ﻿using FitbyteServer.Models;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json.Linq;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,7 +11,7 @@ namespace FitbyteServer.Base {
     public abstract class Workout {
 
         [BsonIgnore]
-        private string _id { get; set; }
+        private string _id;
 
         public string Id { 
             get {
@@ -30,6 +31,8 @@ namespace FitbyteServer.Base {
         public string Title { get; set; }
 
         public DateTime? DateCompleted { get; set; }
+
+        public virtual void SetResult(JObject json) { }
 
     }
 
