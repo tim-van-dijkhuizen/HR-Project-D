@@ -2,6 +2,7 @@
 
     public enum ConditionScores {
 
+        None,
         Lowest,
         Low,
         Medium,
