@@ -171,7 +171,7 @@ namespace FitbyteServer.Services {
             if(score == ConditionScores.Medium && distanceGoal == Goals.Km21)
             {
                 List<Workout> newList = new List<Workout>();
-                Scheme schema10km = Generate(timeGoal, daysAvailable, score, "10kmMax.json");
+                Scheme schema10km = Generate(timeGoal, daysAvailable, score, "10kmPlus.json");
                 Scheme schema = Generate(timeGoal, daysAvailable, score, "21kmMini");
                 schema10km.Workouts.ForEach(item => newList.Add(item));
                 schema.Workouts.ForEach(item => newList.Add(item));
@@ -189,8 +189,8 @@ namespace FitbyteServer.Services {
             {
 
                 List<Workout> newList = new List<Workout>();
-                Scheme schema10km = Generate(timeGoal, daysAvailable, score, "10kmMax.json");
-                Scheme schema = Generate(timeGoal, daysAvailable, score, "21kmMax");
+                Scheme schema10km = Generate(timeGoal, daysAvailable, score, "10kmPlus.json");
+                Scheme schema = Generate(timeGoal, daysAvailable, score, "21kmMax.json");
                 schema10km.Workouts.ForEach(item => newList.Add(item));
                 schema.Workouts.ForEach(item => newList.Add(item));
 
@@ -203,11 +203,13 @@ namespace FitbyteServer.Services {
             }
             if(score == ConditionScores.Highest && distanceGoal == Goals.Km21)
             {
-                Scheme schema = Generate(timeGoal, daysAvailable, score, "21kmMax");
+                Scheme schema = Generate(timeGoal, daysAvailable, score, "21kmMax.json");
                 return schema;
             }
             if(score == ConditionScores.Lowest && distanceGoal == Goals.Km42)
             {
+                Scheme schema1 = Generate(timeGoal, daysAvailable, score, "foundation.json");
+
                 return new Scheme();
             }
             if(score == ConditionScores.Low && distanceGoal == Goals.Km42)
@@ -228,122 +230,7 @@ namespace FitbyteServer.Services {
             }
 
             return new Scheme();
-            
-
-            //if (score == ConditionScores.Low && distanceGoal == Goals.Km21)
-            //{
-            //    StreamReader r = new StreamReader("Models/Json/workouts5kmPlus.json");
-            //    string jsonString = r.ReadToEnd();
-            //    JArray JsonCondition = JArray.Parse(jsonString);
-            //    List<Dictionary<string, object>> condition = JsonCondition.ToObject<List<Dictionary<string, object>>>();
-            //    for (int i = 0; i < condition.Count; i++)
-            //    {
-            //        var con = condition[i];
-
-            //        if ((string)con["type"] == "Endurance")
-            //        {
-            //            int tijd = Convert.ToInt32(con["tijd"]);
-            //            int tijden = (timeGoal / 5) * (Convert.ToInt32(condition[i]["afstand"]) + tijd);
-            //            schemas.Workouts.Add(new EnduranceWorkout() { Title = (string)con["title"], Distance = Convert.ToInt32((con["afstand"])), Time = tijden });
-
-            //        }
-            //        else
-            //        {
-            //            schemas.Workouts.Add(new PowerWorkout() { Title = (string)con["title"] });
-            //        }
-
-
-
-            //    }
-            //    return schemas;
-
-            //}
-            //if (score == ConditionScores.Low && distanceGoal == Goals.Km21)
-            //{
-            //    StreamReader r = new StreamReader("Models/Json/workouts5kmPlus.json");
-            //    string jsonString = r.ReadToEnd();
-            //    JArray JsonCondition = JArray.Parse(jsonString);
-            //    List<Dictionary<string, object>> condition = JsonCondition.ToObject<List<Dictionary<string, object>>>();
-            //    for (int i = 0; i < condition.Count; i++)
-            //    {
-            //        var con = condition[i];
-
-            //        if ((string)con["type"] == "Endurance")
-            //        {
-            //            int tijd = Convert.ToInt32(con["tijd"]);
-            //            int tijden = (timeGoal / 5) * (Convert.ToInt32(condition[i]["afstand"]) + tijd);
-            //            schemas.Workouts.Add(new EnduranceWorkout() { Title = (string)con["title"], Distance = Convert.ToInt32((con["afstand"])), Time = tijden });
-
-            //        }
-            //        else
-            //        {
-            //            schemas.Workouts.Add(new PowerWorkout() { Title = (string)con["title"] });
-            //        }
-
-
-
-            //    }
-            //    return schemas;
-
-            //}
-            //if (score == ConditionScores.Low && distanceGoal == Goals.Km21)
-            //{
-            //    StreamReader r = new StreamReader("Models/Json/workouts5kmPlus.json");
-            //    string jsonString = r.ReadToEnd();
-            //    JArray JsonCondition = JArray.Parse(jsonString);
-            //    List<Dictionary<string, object>> condition = JsonCondition.ToObject<List<Dictionary<string, object>>>();
-            //    for (int i = 0; i < condition.Count; i++)
-            //    {
-            //        var con = condition[i];
-
-            //        if ((string)con["type"] == "Endurance")
-            //        {
-            //            int tijd = Convert.ToInt32(con["tijd"]);
-            //            int tijden = (timeGoal / 5) * (Convert.ToInt32(condition[i]["afstand"]) + tijd);
-            //            schemas.Workouts.Add(new EnduranceWorkout() { Title = (string)con["title"], Distance = Convert.ToInt32((con["afstand"])), Time = tijden });
-
-            //        }
-            //        else
-            //        {
-            //            schemas.Workouts.Add(new PowerWorkout() { Title = (string)con["title"] });
-            //        }
-
-
-
-            //    }
-            //    return schemas;
-
-            //}
-            //if (score == ConditionScores.Low && distanceGoal == Goals.Km21)
-            //{
-            //    StreamReader r = new StreamReader("Models/Json/workouts5kmPlus.json");
-            //    string jsonString = r.ReadToEnd();
-            //    JArray JsonCondition = JArray.Parse(jsonString);
-            //    List<Dictionary<string, object>> condition = JsonCondition.ToObject<List<Dictionary<string, object>>>();
-            //    for (int i = 0; i < condition.Count; i++)
-            //    {
-            //        var con = condition[i];
-
-            //        if ((string)con["type"] == "Endurance")
-            //        {
-            //            int tijd = Convert.ToInt32(con["tijd"]);
-            //            int tijden = (timeGoal / 5) * (Convert.ToInt32(condition[i]["afstand"]) + tijd);
-            //            schemas.Workouts.Add(new EnduranceWorkout() { Title = (string)con["title"], Distance = Convert.ToInt32((con["afstand"])), Time = tijden });
-
-            //        }
-            //        else
-            //        {
-            //            schemas.Workouts.Add(new PowerWorkout() { Title = (string)con["title"] });
-            //        }
-
-
-
-            //    }
-            //    return schemas;
-
-            //}
-            //Scheme schema2 = new Scheme();
-            //return schema2;
+           
 
         }
 
