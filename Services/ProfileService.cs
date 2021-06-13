@@ -134,6 +134,7 @@ namespace FitbyteServer.Services {
             {
                 return Generate(timeGoal, daysAvailable, score, "10km.json");
             }
+            return new Scheme();
             
 
             //if (score == ConditionScores.Low && distanceGoal == Goals.Km21)
