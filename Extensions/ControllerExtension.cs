@@ -18,7 +18,7 @@ namespace FitbyteServer.Extensions {
                 throw new HttpException(400, "Username header is required");
             }
 
-            return username;
+            return username.ToString().ToLower();
         }
 
         public async static Task<T> GetParam<T>(this ControllerBase controller, string key) {

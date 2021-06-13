@@ -22,12 +22,13 @@ namespace FitbyteServer.Base {
                 return _id;
             }
             
-            set {
+            init {
                 _id = value;
             }
         }
 
         [Required]
+        [StringLength(300, ErrorMessage = "Title length can't be more than 300")]
         public string Title { get; set; }
 
         public DateTime? DateCompleted { get; set; }

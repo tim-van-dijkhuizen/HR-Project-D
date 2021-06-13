@@ -7,9 +7,11 @@ namespace FitbyteServer.Models {
     public class EnduranceWorkout : Workout {
 
         [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Distance must be one or higher")]
         public int Distance { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Time must be one or higher")]
         public int Time { get; set; }
 
         public EnduranceResult Result { get; set; }

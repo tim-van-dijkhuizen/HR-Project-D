@@ -1,6 +1,5 @@
 ﻿using FitbyteServer.Base;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using FitbyteServer.Validators;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -11,18 +10,14 @@ namespace FitbyteServer.Models {
 
     public class Profile {
 
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-
-        [Required]
-        public string Username { get; set; }
-
+        public string Id { get; init; }
+        
         [Required]
         [JsonConverter(typeof(StringEnumConverter))]
         public Genders Gender { get; set; }
 
         [Required]
+        [DateOfBirth]
         public DateTime DateOfBirth { get; set; }
 
         [Required]
@@ -30,9 +25,11 @@ namespace FitbyteServer.Models {
         public Goals DistanceGoal { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "TimeGoal must be one or higher")]
         public int TimeGoal { get; set; }
 
         [Required]
+        [Availability]
         public List<int> Availability { get; set; }
 
         public FitbitToken FitbitToken { get; set; }
