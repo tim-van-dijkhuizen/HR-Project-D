@@ -17,6 +17,9 @@
     <Content Remove="Properties\launchSettings.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="**/*" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Update="Properties\launchSettings.json">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

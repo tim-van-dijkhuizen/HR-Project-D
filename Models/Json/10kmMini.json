@@ -1,0 +1,53 @@
+[
+
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 5},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 5},
+    {"type": "Endurance","title": "Hardlopen 3,2km","afstand": 3200, "tijd": 5},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 5},
+    {"type": "Endurance","title": "Hardlopen 3,2km","afstand": 3200, "tijd": 5},
+
+
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 5},
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 7},
+    {"type": "Power", "title": "krachttraining 30 min"},
+    {"type": "Endurance","title": "Hardlopen 8,0km","afstand": 8000, "tijd": 7},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 5},
+
+
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 7},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 4},
+    {"type": "Power", "title": "4 keer 200 meter hill reps"},
+    {"type": "Endurance","title": "Hardlopen 3,2km","afstand": 3200, "tijd": 5},
+    {"type": "Endurance","title": "Hardlopen 6,5km, eerste 3,2km sneltempo","afstand": 6500, "tijd": 6},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 4},
+
+    {"type": "Endurance","title": "Hardlopen 8km","afstand": 8000, "tijd": 10},
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 7},
+    {"type": "Power", "title": "fietsen 30 minuten"},
+    {"type": "Endurance","title": "Hardlopen 8km","afstand": 8000, "tijd": 10},
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 7},
+
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 3},
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 6},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 3},
+    {"type": "Endurance","title": "Hardlopen 12km Interval (1,5km sneltempo, 0,5km rustig tempo)","afstand": 12000, "tijd": 7},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 3},
+
+    {"type": "Endurance","title": "Hardlopen 8km","afstand": 8000, "tijd": 6},
+    {"type": "Endurance","title": "Hardlopen 8km, eerste 4km sneltempo","afstand": 8000, "tijd": 5},
+    {"type": "Power", "title":"krachttraining 30 min"},
+    {"type": "Endurance","title": "Hardlopen 9,5km, eerste 4km sneltempo","afstand": 9500, "tijd": 6},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 1},
+
+    {"type": "Endurance","title": "Hardlopen 8km","afstand": 8000, "tijd": 4},
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 3},
+    {"type": "Endurance","title": "Hardlopen 9,5km, eerste 4km sneltempo","afstand": 9500, "tijd": 5},
+    {"type": "Endurance","title": "Hardlopen 3,2km","afstand": 3200, "tijd": 0},
+
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 0},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 0},
+    {"type": "Endurance","title": "Hardlopen 10km einddoel","afstand": 10000, "tijd": 0}
+
+
+    
+]
