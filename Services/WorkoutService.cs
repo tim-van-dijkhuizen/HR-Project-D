@@ -40,7 +40,7 @@ namespace FitbyteServer.Services {
                 DateTime? date = w.DateCompleted;
 
                 if(date != null) {
-                    return date >= now.StartOfWeek() && date <= now.EndOfWeek();
+                    return date.Value >= now.StartOfWeek() && date.Value <= now.EndOfWeek();
                 }
 
                 return true;
