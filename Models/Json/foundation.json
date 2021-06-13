@@ -1,0 +1,57 @@
+[
+    {"type": "Endurance","title": "Hardlopen 3,2km","afstand": 3200, "tijd": 10},
+    {"type": "Power", "title": "core and resistance training, 1 uur"},
+    {"type": "Endurance","title": "Hardlopen 3,2km","afstand": 3200, "tijd": 10},
+    {"type": "Power", "title": "core and resistance training, 1 uur"},
+    {"type": "Endurance","title": "Hardlopen 3,2km","afstand": 3200, "tijd": 10},
+
+    {"type": "Power", "title": "core and resistance training, 1 uur"},
+    {"type": "Endurance","title": "Hardlopen 3,2km","afstand": 3200, "tijd": 8},
+    {"type": "Endurance","title": "Hardlopen 3,2km","afstand": 3200, "tijd": 8},
+    {"type": "Power", "title": "fietsen, 30 min"},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 8},
+
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 7},
+    {"type": "Power", "title": "core and resistance training, 1 uur"},
+    {"type": "Endurance","title": "Hardlopen 3,2km","afstand": 3200, "tijd": 7},
+    {"type": "Power", "title": "core and resistance training, 1 uur"},
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 7},
+
+    {"type": "Power", "title": "core and resistance training, 1 uur"},
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 6},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 5},
+    {"type": "Power", "title": "fietsen, 30 minuten"},
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 6},
+    {"type": "Endurance","title": "Hardlopen 7,2km","afstand": 6500, "tijd": 6},
+
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 5},
+    {"type": "Power", "title": "core and resistance training, 1 uur"},
+    {"type": "Endurance","title": "Hardlopen 8,0km","afstand": 6500, "tijd": 5},
+    {"type": "Power", "title": "core and resistance training, 1 uur"},
+    {"type": "Endurance","title": "Hardlopen 8,0km","afstand": 6500, "tijd": 4},
+
+    {"type": "Power", "title": "core and resistance training, 1 uur"},
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 4},
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 4},
+    {"type": "Power", "title": "fietsen, 30 minuten"},
+    {"type": "Endurance","title": "Hardlopen 7,2km","afstand": 7200, "tijd": 4},
+    {"type": "Endurance","title": "Hardlopen 8,0km","afstand": 8000, "tijd": 4},
+    {"type": "Endurance","title": "Hardlopen 3,2km","afstand": 3200, "tijd": 3},
+
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 3},
+    {"type": "Power", "title": "core and resistance training, 1 uur"},
+    {"type": "Endurance","title": "Hardlopen 8,0km","afstand": 8000, "tijd": 3},
+    {"type": "Power", "title": "core and resistance training, 1 uur"},
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 3},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 3},
+
+    {"type": "Power", "title": "core and resistance training, 1 uur"},
+    {"type": "Endurance","title": "Hardlopen 8,0km","afstand": 8000, "tijd": 3},
+    {"type": "Endurance","title": "Hardlopen 6,5km","afstand": 6500, "tijd": 3},
+    {"type": "Power", "title": "fietsen, 30 minuten"},
+    {"type": "Endurance","title": "Hardlopen 8,0km","afstand": 8000, "tijd": 3},
+    {"type": "Endurance","title": "Hardlopen 4,8km","afstand": 4800, "tijd": 3}
+
+
+
+]
