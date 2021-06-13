@@ -51,7 +51,7 @@ namespace FitbyteServer.Services {
             // Prepare data
             int completedCount = workouts.Where(w => w.DateCompleted != null).Count();
             float progressPercentage = (completedCount / (float) scheme.WorkoutsPerWeek) * 100;
-            Dictionary<int, string> days = new Dictionary<int, string>();
+            Dictionary<int, string> days = new();
 
             for(int i = 1; i <= 7; i++) {
                 string status = "unavailable";
@@ -121,7 +121,7 @@ namespace FitbyteServer.Services {
             scheme.Progress = GenerateProgress(scheme);
 
             // Save profile
-            _profileService.SaveProfile(profile);
+            _profileService.SaveProfile(username, profile);
         }
 
         private Progress GenerateProgress(Scheme scheme) {
@@ -135,8 +135,8 @@ namespace FitbyteServer.Services {
                 .OfType<EnduranceWorkout>()
                 .ToList();
 
-            int completedCount = completed.Count();
-            int totalCount = workouts.Count();
+            int completedCount = completed.Count;
+            int totalCount = workouts.Count;
 
             // Build progress
             return new Progress {

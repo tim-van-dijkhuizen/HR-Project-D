@@ -40,7 +40,7 @@ namespace FitbyteServer.Controllers {
             Profile profile = _profileService.GetProfile(username);
 
             if(profile == null) {
-                profile = new Profile() { Username = ProfileHelper.ParseUsername(username) };
+                profile = new Profile();
             }
 
             // Clear schema if goal has changed
@@ -56,7 +56,7 @@ namespace FitbyteServer.Controllers {
             profile.Availability = newProfile.Availability;
 
             // Save profile
-            _profileService.SaveProfile(profile);
+            _profileService.SaveProfile(username, profile);
 
             return Ok();
         }
@@ -79,7 +79,7 @@ namespace FitbyteServer.Controllers {
 
             // Update and save profile
             profile.Scheme = schema;
-            _profileService.SaveProfile(profile);
+            _profileService.SaveProfile(username, profile);
 
             return Ok(new { score });
         }
@@ -117,7 +117,7 @@ namespace FitbyteServer.Controllers {
                 RefreshToken = refreshToken
             };
 
-            _profileService.SaveProfile(profile);
+            _profileService.SaveProfile(username, profile);
 
             return Ok();
         }
