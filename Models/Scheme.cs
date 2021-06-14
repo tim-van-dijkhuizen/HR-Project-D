@@ -14,13 +14,18 @@ namespace FitbyteServer.Models {
         private List<Workout> _workouts;
 
         [Required]
-        public List<Workout> Workouts { get {
-              if(_workouts == null) {
+        public List<Workout> Workouts {
+            get {
+                if(_workouts == null) {
                     return _workouts = new List<Workout>();
                 }
 
-              return _workouts;
-        } }
+                return _workouts;
+            }
+            init {
+                _workouts = value;
+            }
+        }
 
 
         [BsonIgnore]
