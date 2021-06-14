@@ -34,6 +34,7 @@ namespace FitbyteServer.Services {
             }
             
             // Get workouts
+            int workoutsPerWeek = profile.Availability.Count;
             DateTime now = DateTime.Now;
 
             List<Workout> workouts = scheme.Workouts.Where(w => {
@@ -49,12 +50,12 @@ namespace FitbyteServer.Services {
 
                 return true;
             })
-            .Take(scheme.WorkoutsPerWeek)
+            .Take(workoutsPerWeek)
             .ToList();
 
             // Prepare data
             int completedCount = workouts.Where(w => w.DateCompleted != null).Count();
-            float progressPercentage = (completedCount / (float) scheme.WorkoutsPerWeek) * 100;
+            float progressPercentage = (completedCount / (float) workoutsPerWeek) * 100;
             Dictionary<int, string> days = new();
 
             for(int i = 1; i <= 7; i++) {

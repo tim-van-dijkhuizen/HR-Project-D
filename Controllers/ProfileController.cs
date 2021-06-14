@@ -75,7 +75,7 @@ namespace FitbyteServer.Controllers {
 
             // Get condition score and generate schema
             ConditionScores score = _profileService.GetConditionScore(profile.Gender, profile.DateOfBirth, distance);
-            Scheme schema = _profileService.GenerateScheme(profile.DistanceGoal, profile.TimeGoal, profile.Availability.Count, score);
+            Scheme schema = _profileService.GenerateScheme(profile.DistanceGoal, profile.TimeGoal, score);
 
             // Update and save profile
             profile.Scheme = schema;
