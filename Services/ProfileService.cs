@@ -132,8 +132,8 @@ namespace FitbyteServer.Services {
             if ((score == ConditionScores.Low || score ==  ConditionScores.Lowest ) && distanceGoal == Goals.Km10)
             {
                 List<Workout> newList = new List<Workout>();
-                Scheme schema2 = Generate(timeGoal, score, "10kmMini.json", 10);
-                Scheme schema1 = Generate(timeGoal, score, "foundation.json", 5);
+                Scheme schema2 = Generate(timeGoal, daysAvailable, score, "10kmMini.json", 10);
+                Scheme schema1 = Generate(timeGoal, daysAvailable, score, "foundation.json", 10);
                 schema1.Workouts.ForEach(item => newList.Add(item));
                 schema2.Workouts.ForEach(item => newList.Add(item));
 
@@ -155,7 +155,7 @@ namespace FitbyteServer.Services {
             {
                 return Generate(timeGoal, score, "10kmPlus.json", 10);
             }
-            if (score == ConditionScores.Lowest  && distanceGoal == Goals.Km21)
+            if ((score == ConditionScores.Lowest || score == ConditionScores.Low) && distanceGoal == Goals.Km21)
             {
                 List<Workout> newList = new List<Workout>();
                 Scheme schema2 = Generate(timeGoal, score, "10kmMini.json", 21);
@@ -178,8 +178,10 @@ namespace FitbyteServer.Services {
             if(score == ConditionScores.Medium && distanceGoal == Goals.Km21)
             {
                 List<Workout> newList = new List<Workout>();
-                Scheme schema10km = Generate(timeGoal, score, "10kmPlus.json", 21);
-                Scheme schema = Generate(timeGoal, score, "21kmMini", 21);
+                Scheme schema1 = Generate(timeGoal, daysAvailable, score, "foundation.json", 21);
+                Scheme schema10km = Generate(timeGoal, daysAvailable, score, "10kmPlus.json", 21);
+                Scheme schema = Generate(timeGoal, daysAvailable, score, "21kmMini", 21);
+                schema1.Workouts.ForEach(item => newList.Add(item));
                 schema10km.Workouts.ForEach(item => newList.Add(item));
                 schema.Workouts.ForEach(item => newList.Add(item));
 
@@ -195,51 +197,118 @@ namespace FitbyteServer.Services {
 
 
             }
-            if(score == ConditionScores.High && distanceGoal == Goals.Km21)
+            if((score == ConditionScores.High || score == ConditionScores.Highest) && distanceGoal == Goals.Km21)
             {
                 Scheme schema10km = Generate(timeGoal, score, "10kmPlus.json", 21);
                 Scheme schema = Generate(timeGoal, score, "21kmMax.json", 21);
                 var newSchema = new Scheme();
 
-                schema10km.Workouts.ForEach(item => newSchema.Workouts.Add(item));
-                schema.Workouts.ForEach(item => newSchema.Workouts.Add(item));
+                List<Workout> newList = new List<Workout>();
+
+                Scheme schema10km = Generate(timeGoal, daysAvailable, score, "foundation.json", 21);
+                Scheme schema = Generate(timeGoal, daysAvailable, score, "21kmMax.json", 21);
+                schema10km.Workouts.ForEach(item => newList.Add(item));
+                schema.Workouts.ForEach(item => newList.Add(item));
 
                 newSchema.ConditionScore = score;
                 
                 return newSchema;
 
             }
-            if(score == ConditionScores.Highest && distanceGoal == Goals.Km21)
-            {
-                Scheme schema = Generate(timeGoal, score, "21kmMax.json", 21);
-                return schema;
-            }
+
             if(score == ConditionScores.Lowest && distanceGoal == Goals.Km42)
             {
-                Scheme schema1 = Generate(timeGoal, score, "foundation.json", 42);
+                List<Workout> newList = new List<Workout>();
+                Scheme schema1 = Generate(timeGoal, daysAvailable, score, "foundation.json", 42);
+                Scheme schema2 = Generate(timeGoal, daysAvailable, score, "10kmMini.json", 42);
+                Scheme schema3 = Generate(timeGoal, daysAvailable, score, "21kmMini.json", 42);
+                Scheme schema4 = Generate(timeGoal, daysAvailable, score, "42kmMin.json", 42);
+                schema1.Workouts.ForEach(item => newList.Add(item));
+                schema2.Workouts.ForEach(item => newList.Add(item));
+                schema3.Workouts.ForEach(item => newList.Add(item));
+                schema4.Workouts.ForEach(item => newList.Add(item));
 
-                return new Scheme();
+                var newSchema = new Scheme();
+                newSchema.ConditionScore = score;
+                newSchema.WorkoutsPerWeek = daysAvailable;
+                newSchema.Workouts = newList;
+                return newSchema;
+
             }
-            if(score == ConditionScores.Low && distanceGoal == Goals.Km42)
+            if (score == ConditionScores.Low && distanceGoal == Goals.Km42)
             {
-                return new Scheme();
+                List<Workout> newList = new List<Workout>();
+                Scheme schema1 = Generate(timeGoal, daysAvailable, score, "foundation.json", 42);
+                Scheme schema2 = Generate(timeGoal, daysAvailable, score, "10kmPlus.json", 42);
+                Scheme schema3 = Generate(timeGoal, daysAvailable, score, "21kmMini.json", 42);
+                Scheme schema4 = Generate(timeGoal, daysAvailable, score, "42kmMin.json", 42);
+                schema1.Workouts.ForEach(item => newList.Add(item));
+                schema2.Workouts.ForEach(item => newList.Add(item));
+                schema3.Workouts.ForEach(item => newList.Add(item));
+                schema4.Workouts.ForEach(item => newList.Add(item));
+
+                var newSchema = new Scheme();
+                newSchema.ConditionScore = score;
+                newSchema.WorkoutsPerWeek = daysAvailable;
+                newSchema.Workouts = newList;
+                return newSchema;
             }
             if (score == ConditionScores.Medium && distanceGoal == Goals.Km42)
             {
-                return new Scheme();
+                List<Workout> newList = new List<Workout>();
+                Scheme schema1 = Generate(timeGoal, daysAvailable, score, "foundation.json", 42);
+                Scheme schema3 = Generate(timeGoal, daysAvailable, score, "21kmMini.json", 42);
+                Scheme schema4 = Generate(timeGoal, daysAvailable, score, "42kmMin.json", 42);
+                schema1.Workouts.ForEach(item => newList.Add(item));
+                schema3.Workouts.ForEach(item => newList.Add(item));
+                schema4.Workouts.ForEach(item => newList.Add(item));
+
+                var newSchema = new Scheme();
+                newSchema.ConditionScore = score;
+                newSchema.WorkoutsPerWeek = daysAvailable;
+                newSchema.Workouts = newList;
+                return newSchema;
             }
             if (score == ConditionScores.High && distanceGoal == Goals.Km42)
             {
-                return new Scheme();
+                List<Workout> newList = new List<Workout>();
+                Scheme schema1 = Generate(timeGoal, daysAvailable, score, "foundation.json", 42);
+                Scheme schema3 = Generate(timeGoal, daysAvailable, score, "21kmMax.json", 42);
+                Scheme schema4 = Generate(timeGoal, daysAvailable, score, "42kmMin.json", 42);
+                schema1.Workouts.ForEach(item => newList.Add(item));
+                schema3.Workouts.ForEach(item => newList.Add(item));
+                schema4.Workouts.ForEach(item => newList.Add(item));
+
+                var newSchema = new Scheme();
+                newSchema.ConditionScore = score;
+                newSchema.WorkoutsPerWeek = daysAvailable;
+                newSchema.Workouts = newList;
+                return newSchema;
             }
             if (score == ConditionScores.Highest && distanceGoal == Goals.Km42)
             {
-                return new Scheme();
-            }
+                List<Workout> newList = new List<Workout>();
+                Scheme schema1 = Generate(timeGoal, daysAvailable, score, "foundation.json", 42);
+                Scheme schema3 = Generate(timeGoal, daysAvailable, score, "21kmMax.json", 42);
+                Scheme schema4 = Generate(timeGoal, daysAvailable, score, "42kmMaxi.json", 42);
+                schema1.Workouts.ForEach(item => newList.Add(item));
+                schema3.Workouts.ForEach(item => newList.Add(item));
+                schema4.Workouts.ForEach(item => newList.Add(item));
 
+                var newSchema = new Scheme();
+                newSchema.ConditionScore = score;
+                newSchema.WorkoutsPerWeek = daysAvailable;
+                newSchema.Workouts = newList;
+                return newSchema;
+            }
             return new Scheme();
+        }
+
+          
+           
+
         }
 
     }
 
-}
+
